@@ -58,7 +58,7 @@ class CameraClick(BoxLayout):
 
     def show_load(self):
         content = LoadDialog(load=self.load, cancel=self.dismiss_popup)
-        self._popup = Popup(title="Загрузить", content=content,
+        self._popup = Popup(title="Загрузка файла", content=content,
                         size_hint=(0.9, 0.9))
         self._popup.open()
 

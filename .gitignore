@@ -3,7 +3,7 @@ c_cpp_properties.json
 test.cpp
 test.exe
 resnet50_imagenet_tf.2.0.h5
-**.jpg
+
 !frog.jpg
 __pycache__
 **.avi
