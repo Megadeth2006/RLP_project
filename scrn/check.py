@@ -265,7 +265,7 @@ def get_boxes(boxes, labels, thresh):
 	return v_boxes, v_labels, v_scores
 
 # draw all results
-def draw_boxes(image, v_boxes, v_labels, v_scores):
+def draw_boxes(image, v_boxes, v_labels, v_scores, image_w, image_h):
     print(v_boxes,v_labels, v_scores)
     for i in range(len(v_boxes)):
         box = v_boxes[i]
@@ -274,7 +274,7 @@ def draw_boxes(image, v_boxes, v_labels, v_scores):
         # width, height = x2 - x1, y2 - y1
         image = cv2.rectangle(image, (x1, y1), (x2,y2), (255, 0, 0), 2)
     
-    cv2.putText(image, f"Count of people =  {len(v_boxes)}", (200, 400), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255,255,255), 2)
+    cv2.putText(image, f"Count of people =  {len(v_boxes)}", (image_w//3+10, image_h-image_h//7), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255,255,255), 2)
         
     return image
  
@@ -298,26 +298,29 @@ labels = ["person", "bicycle", "car", "motorbike", "aeroplane", "bus", "train", 
 
 from numpy import expand_dims
 def load_image_pixels(image, shape):
-    height = image.shape[0]
-    width = image.shape[1]
+	
+	height = image.shape[0]
+	width = image.shape[1]
+	
     
-    image = cv2.resize(image, shape)
+	image = cv2.resize(image, shape)
     
-    image = image.astype('float32')
-    image /= 255.0
-    image = expand_dims(image, 0)
+	image = image.astype('float32')
+	image /= 255.0
+	image = expand_dims(image, 0)
     
-    return image, width, height
+	return image, width, height
+	
 
 
 def recognize(file):
-
+	
     # define the expected input shape for the model
     input_w, input_h = 416, 416
 
     image, image_w, image_h = load_image_pixels(file, (input_w, input_h))
     print(image.shape)
-
+    
   # make prediction
     yhat = yolov3.predict(image)
   # summarize the shape of the list of arrays
@@ -346,7 +349,7 @@ def recognize(file):
         print(v_labels[i], v_scores[i])
   
   # draw what we found
-    file = draw_boxes(file, v_boxes, v_labels, v_scores)
+    file = draw_boxes(file, v_boxes, v_labels, v_scores, image_w, image_h)
     
     return file
     

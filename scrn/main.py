@@ -20,11 +20,13 @@ import cv2 as cv
 from check import recognize
 import os
 
-Builder.load_file('main1.kv')
+Builder.load_file('main1.kv') #импорт разметки виджетов
+
 class KivyCamera(Image):
     def __init__(self, capture, fps, **kwargs):
         super(KivyCamera, self).__init__(**kwargs)
         self.capture = capture
+        
         Clock.schedule_interval(self.update, 1.0 / fps)
 
     def update(self, dt):
@@ -46,6 +48,7 @@ class KivyCamera(Image):
 class LoadDialog(FloatLayout):
     load = ObjectProperty(None)
     cancel = ObjectProperty(None)
+    
 
 class CameraClick(BoxLayout):
 
@@ -61,11 +64,15 @@ class CameraClick(BoxLayout):
         self._popup = Popup(title="Загрузка файла", content=content,
                         size_hint=(0.9, 0.9))
         self._popup.open()
-
-
-    def load(self, path, filename):
+        
+ 
+    def load(self, path, filename): #работа с выбранным файлом
+        
         with open(os.path.join(path, filename[0])) as stream:
-            self.text_input.text = stream.read()
+            
+            CameraClick.file_hello(self, filename[0])
+            
+            # self.text_input.text = stream.read()
 
         self.dismiss_popup()
         
@@ -75,25 +82,24 @@ class CameraClick(BoxLayout):
 
     def exitapp(self):
         Window.close()
-    def file_chooser(self):
-            
-        self.btn1.text = "Видеопоток запущен"
-        self.lbl.text = 'Для завершения работы нажмите на кнопку "Выйти из программы"'
-        self.lbl.font_size= 15
-        self.btn1.color = (0,1,1,1)
-        return True
+    
 
     def index_chooser(self):
-        self.name_input.size = (70, 70)
+        self.name_input.size = (80, 80)
+
         self.btn1.color = (1,1,1,1)
-        self.btn1.size= (0, 0)
+        self.btn1.background_color = (0, 0, 0, 0)
         self.btn1.text = ""
         self.btn2.size= (0, 0)
+        self.btn1.size= (0, 0)
         self.btn2.text = ""
+        self.btn2.background_color = (0, 0, 0, 0)
         self.btn3.size= (0, 0)
         self.btn3.text = ""
-
+        self.btn3.background_color = (0, 0, 0, 0)
         self.btn4.size = (70, 70)
+
+        self.btn4.background_color = (1, 89/255, 0, 0.7)
         self.btn4.font_size = 20
         self.lbl.text = "Введите индекс видеопотока"   
         return True
@@ -113,8 +119,11 @@ class CameraClick(BoxLayout):
         self.btn3.text = ""
         self.btn4.size= (0, 0)
         self.btn4.text = ""
-        
-        
+        self.name_input.background_color = (0, 0, 0, 0)
+        self.btn1.background_color = (0, 0, 0, 0)
+        self.btn2.background_color = (0, 0, 0, 0)
+        self.btn3.background_color = (0, 0, 0, 0)
+        self.btn4.background_color = (0, 0, 0, 0)
         
         
         return True
@@ -128,7 +137,7 @@ class CameraClick(BoxLayout):
         
         
         
-        return True
+        return False
 
     @mainthread
     def translation_hello(self):
@@ -140,7 +149,17 @@ class CameraClick(BoxLayout):
         except:
             f1 = self.bad_state()
         
+    @mainthread
+    def file_hello(self, path):
+        
+        
+        try:
+            self.add_widget(KivyCamera(capture=cv.VideoCapture(path), fps = 60))
+            f1 = self.good_state()
+        except:
+            f1 = self.bad_state()
      
+
     @mainthread
     def say_hello(self):
         xyp = self.name_input.text

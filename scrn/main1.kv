@@ -19,20 +19,17 @@
     Button:
         id: exibtn
         font_name: 'appetite'
-        font_size: 15
+        font_size: 20
         color: 1,1,1,1
+        background_color:(1, 89/255, 0, 0.6)
         text: 'Выйти из программы'
         size_hint_y: None
-        height: '48dp'
+        height: '58dp'
         on_press: root.exitapp()
 
     
     Label:
-        canvas.before:
-            Rectangle:
-                pos: self.pos
-                size: self.size
-                source: 'half_black.png'
+        
                 
         font_name: 'appetite'
         italic: True
@@ -41,14 +38,11 @@
         text: 'Выберите источник'
         font_size: 30
         size_hint_y: None
-        height: '64dp'
+        height: '70dp'
           
     TextInput:
-        canvas.before:
-            Rectangle:
-                pos: self.pos
-                size: self.size
-                source: 'half_black.png'
+        
+        
         font_name: 'appetite'
         id: name
         multiline: False
@@ -63,34 +57,46 @@
         font_name: 'appetite'
         id: btn1
         font_size: 20
+        background_color:(1, 89/255, 0, 0.7)
+        
         color: 1,1,1,1
+        size:(32, 32)
+        # size_hint:(.5, .5)
+        # pos:(300, 250)
+       
         text: 'Трансляция с камеры'
         size_hint_y: None
-        height: '58dp'
+        height: '60dp'
         on_press: root.translation_hello()
     
     Button:
         id: btn2
+        # size_hint:(.7, .7)
+        background_color:(1, 89/255, 0, 0.7)
         font_name: 'appetite'
         text: 'Выбрать файл'
         color: 1,1,1,1
         font_size: 20
         size_hint_y: None
-        height: '58dp'
+        height: '62dp'
         on_release: root.show_load()        
 
     Button:
         font_name: 'appetite'
+        # size_hint:(.6, .6)
+        background_color:(1, 89/255, 0, 0.7)
         id: btn3
         font_size: 20
         color: 1,1,1,1
         text: 'Ввести индекс видеопотока'
         size_hint_y: None
-        height: '56dp'
+        height: '64dp'
         on_press: root.index_chooser()
     Button:
         font_name: 'appetite'
         id: btn4
+        # size_hint:(.0, .0)
+        background_color:(0, 0, 0, 0)
         font_size: 0
         color: 1,1,1,1
         text: 'Начать мониторинг'
